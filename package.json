@@ -1,0 +1,52 @@
+{
+  "name": "dino-runner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Google Chrome Dinosaur Game clone.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --config webpack.dev.js --open",
+    "build": "webpack --config webpack.prod.js",
+    "prepare": "husky install",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojotron/dino-runner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mojotron/dino-runner/issues"
+  },
+  "homepage": "https://github.com/mojotron/dino-runner#readme",
+  "devDependencies": {
+    "css-loader": "^6.5.1",
+    "eslint": "^8.4.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "mini-css-extract-plugin": "^2.4.5",
+    "prettier": "^2.5.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "lint-staged": {
+    "**/*.{js}": [
+      "eslint"
+    ],
+    "**/*.{js,json}": [
+      "prettier --check"
+    ]
+  }
+}
