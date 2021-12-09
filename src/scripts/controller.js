@@ -1,18 +1,36 @@
 import '../styles/reset.css';
 import '../styles/main.css';
-
+// selectors
 const dino = document.querySelector('.dino');
-
-window.addEventListener('keydown', () => {
-  const x = setInterval(() => {
-    if (dino.style.bottom) {
-      dino.style.bottom = `${parseInt(dino.style.bottom, 10) + 1}rem`;
-    } else {
-      dino.style.bottom = `1rem`;
+// global variables
+let isJumping = false;
+// dino jump
+const jump = () => {
+  let count = 0;
+  // going up
+  const goingUp = setInterval(() => {
+    if (count === 10) {
+      clearInterval(goingUp);
+      // going down
+      const goingDown = setInterval(() => {
+        if (count === 2) {
+          clearInterval(goingDown);
+          isJumping = false;
+        }
+        count -= 1;
+        dino.style.bottom = `${count}rem`;
+      }, 25);
     }
-  }, 50);
-  setTimeout(() => {
-    clearInterval(x);
-    dino.style.bottom = '0rem';
-  }, 500);
+    count += 1;
+    dino.style.bottom = `${count}rem`;
+  }, 25);
+};
+
+window.addEventListener('keydown', e => {
+  if (e.key === ' ') {
+    if (!isJumping) {
+      jump();
+      isJumping = true;
+    }
+  }
 });
