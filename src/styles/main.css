@@ -24,3 +24,10 @@ body {
   bottom: 1rem;
   left: 1rem;
 }
+.cactus {
+  position: absolute;
+  height: 5rem;
+  width: 1rem;
+  background: darkgreen;
+  bottom: 1rem;
+}
