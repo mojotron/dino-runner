@@ -69,7 +69,7 @@ const createObstacle = () => {
   if (!gameOver) setTimeout(createObstacle, Math.random() * 4000);
 };
 
-createObstacle();
+// createObstacle();
 
 window.addEventListener('keydown', e => {
   if (e.key === ' ') {
