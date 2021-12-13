@@ -2,17 +2,18 @@ import '../styles/reset.css';
 import '../styles/main.css';
 
 // selectors
-const sendBox = document.querySelector('.send-box');
+const sendBox = document.querySelector('.sand-box');
 const dino = document.querySelector('.dino');
 // global variables
 let isJumping = false;
 let gameOver = false;
+let x = 0;
 // dino jump
 const jump = () => {
   let count = 0;
   // going up
   const goingUp = setInterval(() => {
-    if (count === 10) {
+    if (count === 15) {
       clearInterval(goingUp);
       // going down
       const goingDown = setInterval(() => {
@@ -22,11 +23,11 @@ const jump = () => {
         }
         count -= 1;
         dino.style.bottom = `${count}rem`;
-      }, 25);
+      }, 20);
     }
     count += 1;
     dino.style.bottom = `${count}rem`;
-  }, 25);
+  }, 20);
 };
 
 const overlap = (a, b) => {
@@ -65,11 +66,11 @@ const createObstacle = () => {
       clearInterval(timerId);
       sendBox.removeChild(obstacle);
     }
-  }, 20);
+  }, 40);
   if (!gameOver) setTimeout(createObstacle, Math.random() * 4000);
 };
 
-// createObstacle();
+createObstacle();
 
 window.addEventListener('keydown', e => {
   if (e.key === ' ') {
@@ -79,3 +80,11 @@ window.addEventListener('keydown', e => {
     }
   }
 });
+
+//
+const ground = document.querySelector('.ground-wrapper');
+setInterval(() => {
+  ground.style.left = `${-x}%`;
+  x += 1;
+  if (x === 100) x = 0;
+}, 25);
