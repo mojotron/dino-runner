@@ -18,6 +18,7 @@
       }
     ],
     "import-order": "off",
-    "no-unused-vars": "off" // TEMP
+    "no-unused-vars": "off", // TEMP
+    "no-param-reassign": "off"
   }
 }

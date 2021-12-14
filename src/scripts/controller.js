@@ -7,7 +7,20 @@ const dino = document.querySelector('.dino');
 // global variables
 let isJumping = false;
 let gameOver = false;
-let x = 0;
+let groundIndex = 0;
+let groundTimer;
+const intervals = [];
+
+const ground = document.querySelector('.ground-wrapper');
+
+const groundMovement = () => {
+  groundTimer = setInterval(() => {
+    ground.style.left = `${-groundIndex}%`;
+    groundIndex += 1;
+    if (groundIndex === 100) groundIndex = 0;
+  }, 25);
+};
+
 // dino jump
 const jump = () => {
   let count = 0;
@@ -50,27 +63,35 @@ const createObstacle = () => {
   let position = 99;
   obstacle.style.left = `${position}%`;
   const timerId = setInterval(() => {
+    intervals.push(timerId);
     position -= 1;
     obstacle.style.left = `${position}%`;
 
     const dinoRect = dino.getBoundingClientRect();
     const obstacleRect = obstacle.getBoundingClientRect();
 
-    if (overlap(dinoRect, obstacleRect)) {
-      gameOver = true;
-      sendBox.innerHTML = 'GAME OVER';
-
-      return;
-    }
     if (position === 0) {
       clearInterval(timerId);
       sendBox.removeChild(obstacle);
+    }
+    if (overlap(dinoRect, obstacleRect)) {
+      isJumping = false;
+      gameOver = true;
+      position = null;
+      clearInterval(groundTimer);
+      intervals.forEach(int => clearInterval(int));
+      const temp = document.querySelectorAll('.cactus');
+      temp.forEach(element => {
+        const x = element.style.left;
+        element.style.left = x;
+      });
     }
   }, 40);
   if (!gameOver) setTimeout(createObstacle, Math.random() * 4000);
 };
 
 createObstacle();
+groundMovement();
 
 window.addEventListener('keydown', e => {
   if (e.key === ' ') {
@@ -82,9 +103,3 @@ window.addEventListener('keydown', e => {
 });
 
 //
-const ground = document.querySelector('.ground-wrapper');
-setInterval(() => {
-  ground.style.left = `${-x}%`;
-  x += 1;
-  if (x === 100) x = 0;
-}, 25);
