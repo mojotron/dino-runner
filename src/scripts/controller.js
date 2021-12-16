@@ -1,12 +1,16 @@
 import '../styles/reset.css';
 import '../styles/main.css';
 
+import * as model from './model';
+import scoreView from './views/score-view';
+import dinoView from './views/dino-view';
+
 // selectors
 const sendBox = document.querySelector('.sand-box');
 const dino = document.querySelector('.dino');
-const score = document.querySelector('.score');
 const startGame = document.querySelector('.start-game');
 // global variables
+
 let isJumping = false;
 let gameOver = false;
 let gameRunning = false;
@@ -15,6 +19,7 @@ let groundTimer;
 const intervals = [];
 
 const ground = document.querySelector('.ground-wrapper');
+
 function dinoRun() {
   if (dino.classList.contains('dino-stationary')) {
     dino.classList.remove('dino-stationary');
@@ -27,14 +32,14 @@ function dinoRun() {
     dino.classList.add('dino-run-0');
   }
 }
+// moving ground
 const groundMovement = () => {
   groundTimer = setInterval(() => {
     dinoRun();
     ground.style.left = `${-groundIndex}%`;
     groundIndex += 1;
     if (groundIndex === 100) groundIndex = 0;
-    const old = +score.textContent;
-    score.textContent = `${old + 1}`.padStart(5, '0');
+    scoreView.incrementScore();
   }, 75);
 };
 
@@ -64,10 +69,10 @@ const jump = () => {
 
 const overlap = (a, b) => {
   if (
-    a.top - 15 > b.bottom ||
-    a.right - 15 < b.left ||
-    a.bottom - 15 < b.top ||
-    a.left - 15 > b.right
+    a.top - 20 > b.bottom ||
+    a.right - 20 < b.left ||
+    a.bottom - 20 < b.top ||
+    a.left - 20 > b.right
   ) {
     return false;
   }
@@ -98,10 +103,14 @@ const createObstacle = () => {
     }
     if (overlap(dinoRect, obstacleRect)) {
       intervals.forEach(int => clearInterval(int));
+      intervals.splice();
       dino.className = 'dino dino-lose';
       isJumping = false;
       gameOver = true;
       position = null;
+      gameRunning = false;
+      groundIndex = 0;
+
       clearInterval(groundTimer);
       const temp = document.querySelectorAll('.cactus');
       temp.forEach(element => {
@@ -109,16 +118,18 @@ const createObstacle = () => {
         element.style.left = x;
       });
       startGame.classList.remove('hidden');
-      gameRunning = false;
     }
   }, 15);
   if (!gameOver) setTimeout(createObstacle, randomTime);
 };
 function runGame() {
+  scoreView.resetScore();
+  gameOver = false;
+  startGame.classList.add('hidden');
   document.querySelectorAll('.cactus').forEach(ele => ele.remove());
+  dino.className = 'dino dino-stationary';
   createObstacle();
   groundMovement();
-  startGame.classList.add('hidden');
 }
 
 window.addEventListener('keydown', e => {
@@ -133,5 +144,3 @@ window.addEventListener('keydown', e => {
     }
   }
 });
-
-//

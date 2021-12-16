@@ -19,6 +19,7 @@
     ],
     "import-order": "off",
     "no-unused-vars": "off", // TEMP
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "import/prefer-default-export": "off"
   }
 }
