@@ -4,13 +4,13 @@ import '../styles/main.css';
 import * as model from './model';
 import scoreView from './views/score-view';
 import dinoView from './views/dino-view';
-
+import startGameView from './views/start-game-view';
+import overlap from './overlap';
 // selectors
 const sendBox = document.querySelector('.sand-box');
 const dino = document.querySelector('.dino');
-const startGame = document.querySelector('.start-game');
+const ground = document.querySelector('.ground-wrapper');
 // global variables
-
 let isJumping = false;
 let gameOver = false;
 let gameRunning = false;
@@ -18,31 +18,16 @@ let groundIndex = 0;
 let groundTimer;
 const intervals = [];
 
-const ground = document.querySelector('.ground-wrapper');
-
-function dinoRun() {
-  if (dino.classList.contains('dino-stationary')) {
-    dino.classList.remove('dino-stationary');
-    dino.classList.add('dino-run-0');
-  } else if (dino.classList.contains('dino-run-0')) {
-    dino.classList.remove('dino-run-0');
-    dino.classList.add('dino-run-1');
-  } else {
-    dino.classList.remove('dino-run-1');
-    dino.classList.add('dino-run-0');
-  }
-}
 // moving ground
 const groundMovement = () => {
   groundTimer = setInterval(() => {
-    dinoRun();
+    dinoView.run();
     ground.style.left = `${-groundIndex}%`;
     groundIndex += 1;
     if (groundIndex === 100) groundIndex = 0;
     scoreView.incrementScore();
   }, 75);
 };
-
 // dino jump
 const jump = () => {
   let count = 0;
@@ -65,18 +50,6 @@ const jump = () => {
     dino.style.bottom = `${count}rem`;
     if (gameOver) clearInterval(goingUp);
   }, 30);
-};
-
-const overlap = (a, b) => {
-  if (
-    a.top - 20 > b.bottom ||
-    a.right - 20 < b.left ||
-    a.bottom - 20 < b.top ||
-    a.left - 20 > b.right
-  ) {
-    return false;
-  }
-  return true;
 };
 
 const createObstacle = () => {
@@ -117,15 +90,16 @@ const createObstacle = () => {
         const x = element.style.left;
         element.style.left = x;
       });
-      startGame.classList.remove('hidden');
+      startGameView.add();
     }
   }, 15);
   if (!gameOver) setTimeout(createObstacle, randomTime);
 };
+
 function runGame() {
   scoreView.resetScore();
   gameOver = false;
-  startGame.classList.add('hidden');
+  startGameView.remove();
   document.querySelectorAll('.cactus').forEach(ele => ele.remove());
   dino.className = 'dino dino-stationary';
   createObstacle();

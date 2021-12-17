@@ -8,7 +8,7 @@ const ScoreView = () => {
   const readScore = () => parseInt(scoreElement.textContent, 10);
 
   const incrementScore = () => {
-    scoreElement.textContent = `${readScore() + 10}`.padStart(4, '0');
+    scoreElement.textContent = `${readScore() + 1}`.padStart(4, '0');
   };
   return { incrementScore, resetScore };
 };

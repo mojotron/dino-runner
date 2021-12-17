@@ -19,8 +19,9 @@ body {
   user-select: none;
 }
 .sand-box {
+  width: 90vmin;
   height: 20rem;
-  width: 50rem;
+
   position: relative;
   overflow: hidden;
 }
