@@ -18,7 +18,9 @@ const DinoView = () => {
     }
   };
 
-  const lost = () => {};
+  const loose = () => {
+    dino.className = 'dino dino-lose';
+  };
 
   const jump = state => {
     if (state.isJumping) return;
@@ -45,7 +47,7 @@ const DinoView = () => {
     }, 30);
   };
 
-  return { run, jump, stand };
+  return { dino, run, jump, stand, loose };
 };
 
 export default DinoView();

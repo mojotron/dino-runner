@@ -1,6 +1,6 @@
 function MainView() {
   const gameHandler = handler => {
-    window.addEventListener('keydown', handler);
+    window.addEventListener('keyup', handler);
   };
 
   return { gameHandler };
