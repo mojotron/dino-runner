@@ -1,7 +1,9 @@
 import overlap from '../overlap';
 import dinoView from './dino-view';
 import groundView from './ground-view';
+import scoreView from './score-view';
 import startGameView from './start-game-view';
+import winGameView from './win-game-view';
 
 function CactusView() {
   const intervals = [];
@@ -25,9 +27,18 @@ function CactusView() {
     });
   };
 
+  const endGame = state => {
+    cleanIntervals();
+    freezeAll();
+    state.gameStop();
+    dinoView.loose();
+    groundView.stop();
+    startGameView.add();
+  };
+
   const addCactus = state => {
     if (state.gameOver) return;
-    const randomTime = Math.random() * 5000;
+    const randomTime = Math.random() * 6000;
     let position = 99;
 
     const cactusElement = document.createElement('div');
@@ -49,12 +60,12 @@ function CactusView() {
       }
 
       if (overlap(dinoRect, cactusRect)) {
-        cleanIntervals();
-        freezeAll();
-        state.gameStop();
-        dinoView.loose();
-        groundView.stop();
-        startGameView.add();
+        endGame(state);
+      }
+
+      if (scoreView.checkWin()) {
+        endGame(state);
+        winGameView.addMessage();
       }
     }, 15);
     if (!state.gameOver) setTimeout(() => addCactus(state), randomTime);

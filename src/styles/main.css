@@ -92,3 +92,13 @@ body {
 .hidden {
   display: none;
 }
+.win-msg {
+  text-align: center;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: green;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
