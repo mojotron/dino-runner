@@ -1,6 +1,9 @@
 function MainView() {
   const gameHandler = handler => {
-    window.addEventListener('keyup', handler);
+    console.log(
+      'Process of change in the characteristics of a species over several generations?'
+    );
+    window.addEventListener('keydown', handler);
   };
 
   return { gameHandler };

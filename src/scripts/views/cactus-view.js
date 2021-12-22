@@ -8,15 +8,17 @@ import winGameView from './win-game-view';
 function CactusView() {
   const intervals = [];
   const parentElement = document.querySelector('.sand-box');
-
-  const removeAll = () => {
-    const cactusElements = document.querySelectorAll('.cactus');
-    cactusElements.forEach(ele => parentElement.removeChild(ele));
-  };
+  let timeOutId;
 
   const cleanIntervals = () => {
     intervals.forEach(int => clearInterval(int));
     intervals.splice(0, intervals.length);
+  };
+
+  const removeAll = () => {
+    cleanIntervals();
+    const cactusElements = document.querySelectorAll('.cactus');
+    cactusElements.forEach(ele => parentElement.removeChild(ele));
   };
 
   const freezeAll = () => {
@@ -28,6 +30,7 @@ function CactusView() {
   };
 
   const endGame = state => {
+    clearTimeout(timeOutId);
     cleanIntervals();
     freezeAll();
     state.gameStop();
@@ -36,9 +39,10 @@ function CactusView() {
     startGameView.add();
   };
 
+  const randTime = () => Math.random() * 3500 + 250;
+
   const addCactus = state => {
     if (state.gameOver) return;
-    const randomTime = Math.random() * 6000;
     let position = 99;
 
     const cactusElement = document.createElement('div');
@@ -66,9 +70,11 @@ function CactusView() {
       if (scoreView.checkWin()) {
         endGame(state);
         winGameView.addMessage();
+        dinoView.stand();
       }
     }, 15);
-    if (!state.gameOver) setTimeout(() => addCactus(state), randomTime);
+    if (!state.gameOver)
+      timeOutId = setTimeout(() => addCactus(state), randTime());
   };
 
   return { addCactus, removeAll };

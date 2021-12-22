@@ -17,9 +17,8 @@
         "peerDependencies": false
       }
     ],
-    "import-order": "off",
-    "no-unused-vars": "off", // TEMP
     "no-param-reassign": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-console": "off"
   }
 }

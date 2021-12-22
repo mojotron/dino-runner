@@ -19,7 +19,8 @@ body {
   user-select: none;
 }
 .sand-box {
-  width: 90vmin;
+  width: 98vw;
+  max-width: 65rem;
   height: 20rem;
 
   position: relative;
@@ -39,7 +40,7 @@ body {
   background: url('../images/ground.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100%;
+  background-size: 250%;
 }
 
 .dino-stationary {

@@ -9,6 +9,7 @@ import groundView from './views/ground-view';
 import scoreView from './views/score-view';
 import startGameView from './views/start-game-view';
 import winGameView from './views/win-game-view';
+import secretMode from './secret-mode';
 
 function initGame() {
   winGameView.removeMessage();
@@ -22,6 +23,8 @@ function initGame() {
 }
 
 function gameController(e) {
+  secretMode.addValue(e.key);
+
   if (!state.gameRunning) {
     state.gameRunning = true;
     initGame();

@@ -1,19 +1,20 @@
-import { START_SCORE, ZERO, END_SCORE } from '../config';
+import { START_SCORE, ZERO, END_SCORE, ZERO_NUM } from '../config';
 
 const ScoreView = () => {
   const scoreElement = document.querySelector('.score');
 
   const resetScore = () => {
-    scoreElement.textContent = `${START_SCORE}`.padStart(3, ZERO);
+    scoreElement.textContent = `${START_SCORE}`.padStart(ZERO_NUM, ZERO);
   };
 
   const readScore = () => parseInt(scoreElement.textContent, 10);
 
   const incrementScore = () => {
-    scoreElement.textContent = `${readScore() + 1}`.padStart(3, ZERO);
+    if (readScore() >= END_SCORE) return;
+    scoreElement.textContent = `${readScore() + 1}`.padStart(ZERO_NUM, ZERO);
   };
 
-  const checkWin = () => readScore() === END_SCORE;
+  const checkWin = () => readScore() >= END_SCORE;
 
   return { incrementScore, resetScore, checkWin };
 };
