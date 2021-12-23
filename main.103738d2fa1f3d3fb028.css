@@ -1,0 +1,159 @@
+@import url(https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap);
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/*prettier-ignore*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+/*prettier-ignore*/
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'Press Start 2P';
+}
+body {
+  color: #545454;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  user-select: none;
+}
+.sand-box {
+  width: 98vw;
+  max-width: 65rem;
+  height: 20rem;
+
+  position: relative;
+  overflow: hidden;
+}
+.ground-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 30%;
+  width: 200%;
+  display: flex;
+}
+.ground {
+  width: 100%;
+  height: 100%;
+  background: url(c741c7ded0637c23c2da.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 250%;
+}
+
+.dino-stationary {
+  background: url(9ce64f70645901dedf5f.png);
+}
+.dino-run-0 {
+  background: url(d62f74b9ec23ba4953ca.png);
+}
+.dino-run-1 {
+  background: url(d1770a02def795c2c61a.png);
+}
+.dino-lose {
+  background: url(52b3d2ba1ea6cf4f50dd.png);
+}
+.dino {
+  border: none;
+  z-index: 3;
+  width: 6vmin;
+  height: 6vmin;
+  background-color: transparent;
+  background-size: cover;
+  position: absolute;
+  bottom: 1rem;
+  left: 3rem;
+}
+.cactus {
+  z-index: 2;
+  width: 3vmin;
+  height: 6vmin;
+  background: url(5c3e9dd38ac028964a73.png);
+  background-color: transparent;
+  background-size: cover;
+  position: absolute;
+  bottom: 1rem;
+  /* left: 1rem; */
+}
+.score {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+.start-game {
+  font-size: 1.1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.hidden {
+  display: none;
+}
+.win-msg {
+  text-align: center;
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: green;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+

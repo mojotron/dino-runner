@@ -1,0 +1,341 @@
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+var __webpack_exports__ = {};
+
+;// CONCATENATED MODULE: ./src/scripts/model.js
+const state = {
+  gameOver: false,
+  gameRunning: false,
+  isJumping: false,
+
+  gameStop() {
+    this.gameOver = true;
+    this.isJumping = false;
+    this.gameRunning = false;
+  },
+};
+
+;// CONCATENATED MODULE: ./src/scripts/views/main-view.js
+function MainView() {
+  const gameHandler = handler => {
+    console.log(
+      'Process of change in the characteristics of a species over several generations?'
+    );
+    window.addEventListener('keydown', handler);
+  };
+
+  return { gameHandler };
+}
+
+/* harmony default export */ const main_view = (MainView());
+
+;// CONCATENATED MODULE: ./src/scripts/views/dino-view.js
+const DinoView = () => {
+  const dino = document.querySelector('.dino');
+
+  const stand = () => {
+    dino.className = 'dino dino-stationary';
+  };
+
+  const run = () => {
+    if (dino.classList.contains('dino-stationary')) {
+      dino.classList.remove('dino-stationary');
+      dino.classList.add('dino-run-0');
+    } else if (dino.classList.contains('dino-run-0')) {
+      dino.classList.remove('dino-run-0');
+      dino.classList.add('dino-run-1');
+    } else {
+      dino.classList.remove('dino-run-1');
+      dino.classList.add('dino-run-0');
+    }
+  };
+
+  const loose = () => {
+    dino.className = 'dino dino-lose';
+  };
+
+  const fly = () => {
+    dino.style.top = `10rem`;
+  };
+
+  const jump = state => {
+    if (state.isJumping) return;
+    state.isJumping = true;
+    let count = 0;
+    // going up
+    const goingUp = setInterval(() => {
+      if (count === 10) {
+        clearInterval(goingUp);
+        // going down
+        const goingDown = setInterval(() => {
+          if (count === 2) {
+            clearInterval(goingDown);
+            state.isJumping = false;
+          }
+          count -= 1;
+          dino.style.bottom = `${count}rem`;
+          if (state.gameOver) clearInterval(goingDown);
+        }, 30);
+      }
+      count += 1;
+      dino.style.bottom = `${count}rem`;
+      if (state.gameOver) clearInterval(goingUp);
+    }, 30);
+  };
+
+  return { dino, run, jump, stand, loose, fly };
+};
+
+/* harmony default export */ const dino_view = (DinoView());
+
+;// CONCATENATED MODULE: ./src/scripts/overlap.js
+/* harmony default export */ const overlap = ((a, b) => {
+  if (
+    a.top - 10 > b.bottom ||
+    a.right - 10 < b.left ||
+    a.bottom - 10 < b.top ||
+    a.left - 10 > b.right
+  ) {
+    return false;
+  }
+  return true;
+});
+
+;// CONCATENATED MODULE: ./src/scripts/config.js
+const START_SCORE = 0;
+const END_SCORE = 999;
+const ZERO = '0';
+const ZERO_NUM = 3;
+
+;// CONCATENATED MODULE: ./src/scripts/views/score-view.js
+
+
+const ScoreView = () => {
+  const scoreElement = document.querySelector('.score');
+
+  const resetScore = () => {
+    scoreElement.textContent = `${START_SCORE}`.padStart(ZERO_NUM, ZERO);
+  };
+
+  const readScore = () => parseInt(scoreElement.textContent, 10);
+
+  const incrementScore = () => {
+    if (readScore() >= END_SCORE) return;
+    scoreElement.textContent = `${readScore() + 1}`.padStart(ZERO_NUM, ZERO);
+  };
+
+  const checkWin = () => readScore() >= END_SCORE;
+
+  return { incrementScore, resetScore, checkWin };
+};
+
+/* harmony default export */ const score_view = (ScoreView());
+
+;// CONCATENATED MODULE: ./src/scripts/views/ground-view.js
+
+
+
+function GroundView() {
+  const ground = document.querySelector('.ground-wrapper');
+  let position = 0;
+  let timerId;
+
+  const move = () => {
+    timerId = setInterval(() => {
+      dino_view.run();
+      ground.style.left = `${-position}%`;
+      position += 1;
+      if (position === 100) position = 0;
+      score_view.incrementScore();
+    }, 75);
+  };
+
+  const stop = () => clearInterval(timerId);
+
+  return { move, stop };
+}
+
+/* harmony default export */ const ground_view = (GroundView());
+
+;// CONCATENATED MODULE: ./src/scripts/views/start-game-view.js
+function StartGameView() {
+  const startGame = document.querySelector('.start-game');
+
+  const add = () => startGame.classList.remove('hidden');
+
+  const remove = () => startGame.classList.add('hidden');
+
+  return { add, remove };
+}
+
+/* harmony default export */ const start_game_view = (StartGameView());
+
+;// CONCATENATED MODULE: ./src/scripts/views/win-game-view.js
+function WinGameView() {
+  const parentElement = document.querySelector('.sand-box');
+
+  const addMessage = () => {
+    const msg = document.createElement('div');
+    msg.className = 'win-msg';
+    msg.textContent = 'Congratulation you WON the game!';
+    parentElement.append(msg);
+  };
+
+  const removeMessage = () => {
+    const msg = document.querySelector('.win-msg');
+    if (!msg) return;
+    parentElement.removeChild(msg);
+  };
+
+  return { addMessage, removeMessage };
+}
+/* harmony default export */ const win_game_view = (WinGameView());
+
+;// CONCATENATED MODULE: ./src/scripts/views/cactus-view.js
+
+
+
+
+
+
+
+function CactusView() {
+  const intervals = [];
+  const parentElement = document.querySelector('.sand-box');
+  let timeOutId;
+
+  const cleanIntervals = () => {
+    intervals.forEach(int => clearInterval(int));
+    intervals.splice(0, intervals.length);
+  };
+
+  const removeAll = () => {
+    cleanIntervals();
+    const cactusElements = document.querySelectorAll('.cactus');
+    cactusElements.forEach(ele => parentElement.removeChild(ele));
+  };
+
+  const freezeAll = () => {
+    const cactusElements = document.querySelectorAll('.cactus');
+    cactusElements.forEach(element => {
+      const currentPosition = element.style.left;
+      element.style.left = currentPosition;
+    });
+  };
+
+  const endGame = state => {
+    clearTimeout(timeOutId);
+    cleanIntervals();
+    freezeAll();
+    state.gameStop();
+    dino_view.loose();
+    ground_view.stop();
+    start_game_view.add();
+  };
+
+  const randTime = () => Math.random() * 3500 + 250;
+
+  const addCactus = state => {
+    if (state.gameOver) return;
+    let position = 99;
+
+    const cactusElement = document.createElement('div');
+    cactusElement.className = 'cactus';
+    cactusElement.style.left = `${position}%`;
+    parentElement.append(cactusElement);
+
+    const timerId = setInterval(() => {
+      intervals.push(timerId);
+      position -= 1;
+      cactusElement.style.left = `${position}%`;
+
+      const dinoRect = dino_view.dino.getBoundingClientRect();
+      const cactusRect = cactusElement.getBoundingClientRect();
+
+      if (position === 1) {
+        clearInterval(timerId);
+        parentElement.removeChild(cactusElement);
+      }
+
+      if (overlap(dinoRect, cactusRect)) {
+        endGame(state);
+      }
+
+      if (score_view.checkWin()) {
+        endGame(state);
+        win_game_view.addMessage();
+        dino_view.stand();
+      }
+    }, 15);
+    if (!state.gameOver)
+      timeOutId = setTimeout(() => addCactus(state), randTime());
+  };
+
+  return { addCactus, removeAll };
+}
+
+/* harmony default export */ const cactus_view = (CactusView());
+
+;// CONCATENATED MODULE: ./src/scripts/secret-mode.js
+
+
+function SecretMode() {
+  const secret = 'evolution';
+  const code = [];
+
+  const spliceCode = () => {
+    code.splice(-secret.length - 1, code.length - secret.length);
+  };
+
+  const checkCode = () => secret === code.join('');
+
+  const addValue = value => {
+    code.push(value);
+    spliceCode();
+    if (checkCode()) dino_view.fly();
+  };
+
+  return { addValue };
+}
+
+/* harmony default export */ const secret_mode = (SecretMode());
+
+;// CONCATENATED MODULE: ./src/scripts/controller.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+function initGame() {
+  win_game_view.removeMessage();
+  score_view.resetScore();
+  state.gameOver = false;
+  cactus_view.removeAll();
+  start_game_view.remove();
+  dino_view.stand();
+  ground_view.move();
+  cactus_view.addCactus(state);
+}
+
+function gameController(e) {
+  secret_mode.addValue(e.key);
+
+  if (!state.gameRunning) {
+    state.gameRunning = true;
+    initGame();
+  }
+  if (e.key === ' ') dino_view.jump(state);
+}
+
+main_view.gameHandler(gameController);
+
+/******/ })()
+;
