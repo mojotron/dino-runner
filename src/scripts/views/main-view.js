@@ -3,7 +3,9 @@ function MainView() {
     console.log(
       'Process of change in the characteristics of a species over several generations?'
     );
+
     window.addEventListener('keydown', handler);
+    document.body.addEventListener('touchend', handler);
   };
 
   return { gameHandler };

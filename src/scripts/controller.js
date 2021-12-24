@@ -29,7 +29,7 @@ function gameController(e) {
     state.gameRunning = true;
     initGame();
   }
-  if (e.key === ' ') dinoView.jump(state);
+  if (e.key === ' ' || e.type === 'click') dinoView.jump(state);
 }
 
 mainView.gameHandler(gameController);
