@@ -5,7 +5,7 @@ function MainView() {
     );
 
     window.addEventListener('keydown', handler);
-    document.body.addEventListener('touchend', handler);
+    document.body.addEventListener('click', handler);
   };
 
   return { gameHandler };
